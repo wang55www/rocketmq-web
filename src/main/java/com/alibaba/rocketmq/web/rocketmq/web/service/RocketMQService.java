@@ -61,8 +61,10 @@ public class RocketMQService {
     
     @PostConstruct
     private void initRocketMQEnv(){
-        System.setProperty(MixAll.NAMESRV_ADDR_PROPERTY,nameAddr);
         adminExt = new DefaultMQAdminExt();
+        if(adminExt.getNamesrvAddr()==null||adminExt.getNamesrvAddr().length()>0){
+            adminExt.setNamesrvAddr(nameAddr);
+        }
         adminExt.setInstanceName(Long.toString(System.currentTimeMillis()));
         try {
             adminExt.start();
